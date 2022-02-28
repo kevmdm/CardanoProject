@@ -7,7 +7,6 @@ function hexToBytes(hex) {
   return bytes;
 }
 
-
 const api = await cardano.nami.enable();
 console.log(api);
 console.log('new balance')
@@ -20,9 +19,13 @@ const adaValue = lovelaces / 1000000;
 console.log(adaValue + ' Adas');
 
 const adress = (await api.getUsedAddresses())[0];
-
 console.log(adress);
-
+const adress2 =  wasm.Address.from_bytes(hexToBytes(adress));
+console.log(adress2);
+const adress3 = adress2.to_bech32();
+console.log(adress3);
+//const adress3 = adress2.;
+//console.log(adress3);
 
 
 
