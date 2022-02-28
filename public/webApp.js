@@ -18,14 +18,14 @@ const lovelaces = balance.coin().to_str();
 const adaValue = lovelaces / 1000000;
 console.log(adaValue + ' Adas');
 
-const adress = (await api.getUsedAddresses())[0];
+const cborAdress = (await api.getUsedAddresses())[0];
+console.log(cborAdress);
+const decodeAdress =  wasm.Address.from_bytes(hexToBytes(cborAdress));
+console.log(decodeAdress);
+const adress = decodeAdress.to_bech32();
 console.log(adress);
-const adress2 =  wasm.Address.from_bytes(hexToBytes(adress));
-console.log(adress2);
-const adress3 = adress2.to_bech32();
-console.log(adress3);
-//const adress3 = adress2.;
-//console.log(adress3);
+const destroyAdress = decodeAdress.__destroy_into_raw();
+console.log(destroyAdress);
 
 
 
