@@ -7,32 +7,22 @@ function hexToBytes(hex) {
 }
 
 
-function nami() {
-  console.log("Funcion corriendo");
-  window.cardano.nami.enable().then((api) => {//asi se usa una promesa
-    console.log("Conecte con cardano");
-    console.log(api);
-    api.getBalance().then((res) => {
-      console.log('opten respuesta de balance')
-      console.log(res)
-      const balance = wasm.Value.from_bytes(hexToBytes(res));
-      const lovelaces = balance.coin().to_str();
+await cardano.nami.enable().then((api) => {
 
-      console.log('Kev Tiene', lovelaces);
-      const adaValue = lovelaces / 1000000;
-      console.log('Kev Tiene ' + adaValue + ' Adas');
-      alert('Kev Tiene ' + adaValue + ' Adas');
-    });
-
-    //opten UTXO sin serializar 
-
-    api.getUtxos().then((res) => {
-      console.log('getting utxo');
-      const utxo = res[0];
-      console.log(utxo);
-     
-
-    });
+  api.getBalance().then(res => {
+    console.log(res); //respuesta de la instruccion en bytes 
+    const balance = wasm.Value.from_bytes(hexToBytes(res));
+    const lovelaces = balance.coin().to_str();
+    console.log(lovelaces + ' Lovelace');
+    const adaValue = lovelaces / 1000000;
+    console.log(adaValue + ' Adas');
   });
-}
-setTimeout(nami, 1000);
+
+  api.getUtxos().then(res => {
+    console.log('getting utxo');
+    const utxoCbor = res[0];
+    console.log(utxoCbor);
+  });
+
+});
+
